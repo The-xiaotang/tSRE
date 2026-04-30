@@ -1,0 +1,63 @@
+﻿Subject,Object
+distribution map,format constraint
+commemorative plaque image,format constraint
+detail map,format constraint
+creator's signature,format constraint
+CETS number,format constraint
+CETS number,format constraint
+UK Parliament thesaurus ID,format constraint
+Sabinet journal ID,format constraint
+ERIH PLUS ID,format constraint
+PhilPapers publication ID,format constraint
+Women's Basketball Hall of Fame ID,single value constraint
+LFB player ID,single value constraint
+Rugby Football Union women's player ID,single value constraint
+Irish Rugby Football Union women's player ID,single value constraint
+Basketball-Reference.com WNBA coach ID,single value constraint
+Basketball-Reference.com WNBA player ID,single value constraint
+FFF female player ID,single value constraint
+Women's Collegiate Tennis Hall of Fame ID,single value constraint
+LFB player ID,single value constraint
+Basketball-Reference.com WNBA player ID,single value constraint
+Women's Collegiate Tennis Hall of Fame ID,single value constraint
+artist-info exhibition ID,single value constraint
+artist-info location ID,single value constraint
+artist-info curator ID,single value constraint
+artist-info exhibition ID,single value constraint
+artist-info location ID,single value constraint
+UltraSignup runner ID,single value constraint
+ITRA runner ID,single value constraint
+FIDAL athlete ID,single value constraint
+French Athletics Federation athlete ID,single value constraint
+All-Athletics.com ID,single value constraint
+French Athletics Federation athlete ID,single value constraint
+All-Athletics.com ID,single value constraint
+UltraSignup runner ID,single value constraint
+ITRA runner ID,single value constraint
+Deutsche Ultramarathon-Vereinigung ID,single value constraint
+Mantodea Species File ID,single value constraint
+Coreoidea Species File ID,single value constraint
+Mantodea Species File ID,single value constraint
+Coreoidea Species File ID,single value constraint
+date depicted,single value constraint
+ctext work ID,single value constraint
+date depicted,single value constraint
+location of first performance,single value constraint
+Bargeton ID,single value constraint
+OpenSecrets organization ID,single value constraint
+Bargeton ID,single value constraint
+Premiers préfets ID,single value constraint
+Argentine deputy votations ID,single value constraint
+OpenSecrets organization ID,single value constraint
+Bargeton ID,single value constraint
+NKCR AUT ID,allowed qualifiers constraint
+Bibliothèque nationale de France ID,allowed qualifiers constraint
+Library of Congress authority ID,allowed qualifiers constraint
+CONOR ID,conflicts-with constraint
+NKCR AUT ID,conflicts-with constraint
+Bibliothèque nationale de France ID,conflicts-with constraint
+Library of Congress authority ID,conflicts-with constraint
+Rotten Tomatoes ID,conflicts-with constraint
+season,conflicts-with constraint
+Dictionnaire critique des historiens de l'art ID,item requires statement constraint
+Power of 10 athlete ID,item requires statement constraint

@@ -1,5 +1,6 @@
 import argparse
 import os
+import re
 
 import pandas as pd
 import torch
@@ -9,8 +10,34 @@ from transformers import AutoTokenizer, AutoModel
 from tqdm import tqdm
 
 
+def detect_entity_type(text):
+    """Detect entity type using heuristics."""
+    text = str(text).strip()
+
+    # Check if date (YYYY-MM-DD, YYYY, etc.) - check before numeric
+    if re.match(r'^\d{4}(-\d{2}(-\d{2})?)?$', text):
+        return 'DATE'
+
+    # Check if year range (e.g., "1990-2000")
+    if re.match(r'^\d{4}-\d{4}$', text):
+        return 'DATE'
+
+    # Check if numeric
+    try:
+        float(text.replace(',', ''))
+        return 'NUM'
+    except:
+        pass
+
+    # Default to entity
+    return 'ENTITY'
+
+
 def build_input(subject, obj):
-    return f"relation: [subject] {subject} [object] {obj}"
+    """Enhanced input with entity type markers."""
+    subj_type = detect_entity_type(subject)
+    obj_type = detect_entity_type(obj)
+    return f"[E1:{subj_type}] {subject} [/E1] [E2:{obj_type}] {obj} [/E2]"
 
 
 class InferDataset(Dataset):
@@ -34,11 +61,11 @@ class InferDataset(Dataset):
 
 
 class CPAModel(nn.Module):
-    def __init__(self, model_name, num_labels):
+    def __init__(self, model_name, num_labels, dropout=0.1):
         super().__init__()
         self.encoder = AutoModel.from_pretrained(model_name)
         hidden = self.encoder.config.hidden_size
-        self.dropout = nn.Dropout(0.1)
+        self.dropout = nn.Dropout(dropout)
         self.classifier = nn.Linear(hidden, num_labels)
 
     def forward(self, input_ids, attention_mask):
@@ -55,7 +82,7 @@ def run_inference(args):
     id2label = {i: c for i, c in enumerate(classes)}
 
     tokenizer = AutoTokenizer.from_pretrained(args.model_dir)
-    model = CPAModel(args.model_name, len(classes)).to(device)
+    model = CPAModel(args.model_name, len(classes), dropout=args.dropout).to(device)
     model.load_state_dict(torch.load(args.model_path, map_location=device))
     model.eval()
 
@@ -82,12 +109,13 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--input_csv', default='../dataset/test.csv')
     parser.add_argument('--labels_path', default='../dataset/labels.txt')
-    parser.add_argument('--model_name', default='bert-base-uncased')
+    parser.add_argument('--model_name', default='microsoft/deberta-v3-base')
     parser.add_argument('--model_dir', default='./cpa_output/best')
     parser.add_argument('--model_path', default='./cpa_output/best/best_model.pt')
-    parser.add_argument('--output_file', default='./result/submission.csv')
+    parser.add_argument('--output_file', default='./result/submission_v2.csv')
     parser.add_argument('--batch_size', type=int, default=256)
-    parser.add_argument('--max_length', type=int, default=128)
+    parser.add_argument('--max_length', type=int, default=256)
+    parser.add_argument('--dropout', type=float, default=0.2)
     parser.add_argument('--num_workers', type=int, default=0)
     args = parser.parse_args()
     run_inference(args)
